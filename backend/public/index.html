@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FacilityPro - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+    <div class="min-h-screen flex flex-col">
+        <!-- Top Navbar -->
+        <header class="bg-[#0F2C59] text-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-white/10 rounded-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">FacilityPro Admin</h1>
+                        <p class="text-xs text-slate-300">Management & Enquiries Dashboard</p>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xs bg-teal-600 px-3 py-1 rounded-full text-white font-medium">Logged in as Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-8">
+            <!-- Tabs Navigation -->
+            <div class="flex space-x-2 border-b border-slate-200 mb-6 pb-2">
+                <button onclick="switchTab('quotes')" id="btn-quotes" class="px-4 py-2 font-semibold text-sm rounded-lg bg-[#0F2C59] text-white transition">Quote Requests</button>
+                <button onclick="switchTab('contacts')" id="btn-contacts" class="px-4 py-2 font-semibold text-sm rounded-lg text-slate-600 hover:bg-slate-200 transition">Contact Enquiries</button>
+                <button onclick="switchTab('careers')" id="btn-careers" class="px-4 py-2 font-semibold text-sm rounded-lg text-slate-600 hover:bg-slate-200 transition">Job Applications</button>
+            </div>
+
+            <!-- Tab 1: Quotes -->
+            <section id="tab-quotes" class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-bold text-slate-900">Customer Quotation Requests</h2>
+                    <button onclick="loadQuotes()" class="text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1.5 rounded font-medium">Refresh</button>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                                    <th class="p-4">Date</th>
+                                    <th class="p-4">Name / Company</th>
+                                    <th class="p-4">Property Type</th>
+                                    <th class="p-4">Service Required</th>
+                                    <th class="p-4">Location & Details</th>
+                                    <th class="p-4">Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quotes-table-body" class="divide-y divide-slate-100">
+                                <tr><td colspan="6" class="p-6 text-center text-slate-400">Loading quotes...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: Contacts -->
+            <section id="tab-contacts" class="space-y-4 hidden">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-bold text-slate-900">Contact Enquiries</h2>
+                    <button onclick="loadContacts()" class="text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1.5 rounded font-medium">Refresh</button>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                                    <th class="p-4">Date</th>
+                                    <th class="p-4">Name</th>
+                                    <th class="p-4">Company</th>
+                                    <th class="p-4">Service</th>
+                                    <th class="p-4">Message</th>
+                                    <th class="p-4">Contact Info</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contacts-table-body" class="divide-y divide-slate-100">
+                                <tr><td colspan="6" class="p-6 text-center text-slate-400">Loading enquiries...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 3: Careers -->
+            <section id="tab-careers" class="space-y-4 hidden">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-bold text-slate-900">Job Applications</h2>
+                    <button onclick="loadCareers()" class="text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1.5 rounded font-medium">Refresh</button>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                                    <th class="p-4">Date</th>
+                                    <th class="p-4">Candidate Name</th>
+                                    <th class="p-4">Position Applied</th>
+                                    <th class="p-4">Experience & Qual.</th>
+                                    <th class="p-4">Location</th>
+                                    <th class="p-4">Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="careers-table-body" class="divide-y divide-slate-100">
+                                <tr><td colspan="6" class="p-6 text-center text-slate-400">Loading applications...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+
+        function switchTab(tab) {
+            ['quotes', 'contacts', 'careers'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`btn-${t}`).className = 'px-4 py-2 font-semibold text-sm rounded-lg text-slate-600 hover:bg-slate-200 transition';
+            });
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`btn-${tab}`).className = 'px-4 py-2 font-semibold text-sm rounded-lg bg-[#0F2C59] text-white transition';
+
+            if (tab === 'quotes') loadQuotes();
+            if (tab === 'contacts') loadContacts();
+            if (tab === 'careers') loadCareers();
+        }
+
+        async function loadQuotes() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/quotes`);
+                const data = await res.json();
+                const tbody = document.getElementById('quotes-table-body');
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No quotation requests found.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(q => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-4 text-xs text-slate-500">${new Date(q.createdAt).toLocaleDateString()}</td>
+                        <td class="p-4">
+                            <div class="font-bold text-slate-900">${q.name}</div>
+                            <div class="text-xs text-slate-500">${q.company} (${q.designation})</div>
+                        </td>
+                        <td class="p-4"><span class="bg-teal-50 text-teal-700 px-2.5 py-1 rounded-full text-xs font-medium">${q.propertyType}</span></td>
+                        <td class="p-4 font-medium text-slate-800">${q.serviceRequired}</td>
+                        <td class="p-4">
+                            <div class="text-xs font-semibold">${q.location}</div>
+                            <div class="text-xs text-slate-500">${q.requirementDetails}</div>
+                        </td>
+                        <td class="p-4 text-xs">
+                            <div>${q.email}</div>
+                            <div class="text-slate-500">${q.phone}</div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function loadContacts() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/contacts`);
+                const data = await res.json();
+                const tbody = document.getElementById('contacts-table-body');
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No contact enquiries found.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(c => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-4 text-xs text-slate-500">${new Date(c.createdAt).toLocaleDateString()}</td>
+                        <td class="p-4 font-bold text-slate-900">${c.name}</td>
+                        <td class="p-4 text-slate-700">${c.company}</td>
+                        <td class="p-4"><span class="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-medium">${c.serviceRequired}</span></td>
+                        <td class="p-4 text-xs text-slate-600 max-w-xs truncate">${c.message}</td>
+                        <td class="p-4 text-xs">
+                            <div>${c.email}</div>
+                            <div class="text-slate-500">${c.phone}</div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function loadCareers() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/careers`);
+                const data = await res.json();
+                const tbody = document.getElementById('careers-table-body');
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No job applications found.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(a => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-4 text-xs text-slate-500">${new Date(a.createdAt).toLocaleDateString()}</td>
+                        <td class="p-4 font-bold text-slate-900">${a.name}</td>
+                        <td class="p-4 font-medium text-slate-800">${a.positionAppliedFor}</td>
+                        <td class="p-4 text-xs">
+                            <div>Exp: ${a.experience}</div>
+                            <div class="text-slate-500">${a.qualification}</div>
+                        </td>
+                        <td class="p-4 text-xs text-slate-700">${a.location}</td>
+                        <td class="p-4 text-xs">
+                            <div>${a.email}</div>
+                            <div class="text-slate-500">${a.phone}</div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Initial load
+        loadQuotes();
+    </script>
+</body>
+</html>

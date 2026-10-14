@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: facilitypro-backend
+    env: node
+    region: ohio
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://shubhshukla7525_db_user:Aradhya1@cluster0.cpwnqhr.mongodb.net/facilitypro_db?retryWrites=true&w=majority
