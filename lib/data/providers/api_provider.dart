@@ -2,6 +2,7 @@ import '../../core/constants/api_constants.dart';
 import '../../core/network/api_client.dart';
 import '../models/contact_model.dart';
 import '../models/quote_model.dart';
+import '../models/career_application_model.dart';
 
 class ApiProvider {
   final ApiClient _apiClient;
@@ -34,5 +35,9 @@ class ApiProvider {
 
   Future<dynamic> submitQuote(QuoteModel quote) async {
     return await _apiClient.post(ApiConstants.quote, quote.toJson());
+  }
+
+  Future<dynamic> submitCareer(CareerApplicationModel career) async {
+    return await _apiClient.post(ApiConstants.careers, career.toJson());
   }
 }

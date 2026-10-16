@@ -98,7 +98,7 @@
             <!-- Tab 3: Careers -->
             <section id="tab-careers" class="space-y-4 hidden">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-slate-900">Job Applications</h2>
+                    <h2 class="text-lg font-bold text-slate-900">Job Applications & Uploaded Resumes</h2>
                     <button onclick="loadCareers()" class="text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1.5 rounded font-medium">Refresh</button>
                 </div>
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -109,7 +109,7 @@
                                     <th class="p-4">Date</th>
                                     <th class="p-4">Candidate Name</th>
                                     <th class="p-4">Position Applied</th>
-                                    <th class="p-4">Experience & Qual.</th>
+                                    <th class="p-4">Experience & Resume File</th>
                                     <th class="p-4">Location</th>
                                     <th class="p-4">Contact</th>
                                 </tr>
@@ -125,7 +125,8 @@
     </div>
 
     <script>
-        const API_BASE = 'http://localhost:5000/api';
+        const SERVER_BASE = window.location.origin;
+        const API_BASE = `${SERVER_BASE}/api`;
 
         function switchTab(tab) {
             ['quotes', 'contacts', 'careers'].forEach(t => {
@@ -196,7 +197,7 @@
                     </tr>
                 `).join('');
             } catch (e) {
-                console.error(e);
+                console.error(e.message);
             }
         }
 
@@ -216,7 +217,13 @@
                         <td class="p-4 font-medium text-slate-800">${a.positionAppliedFor}</td>
                         <td class="p-4 text-xs">
                             <div>Exp: ${a.experience}</div>
-                            <div class="text-slate-500">${a.qualification}</div>
+                            <div class="mt-2">
+                                ${a.resumeBase64 ? `
+                                    <a href="data:application/octet-stream;base64,${a.resumeBase64}" download="${a.resumeName || 'resume.pdf'}" class="px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-semibold text-xs transition inline-flex items-center space-x-1 shadow-sm">
+                                        <span>📥 Download (${a.resumeName || 'Resume'})</span>
+                                    </a>
+                                ` : '<span class="text-slate-400">No Resume</span>'}
+                            </div>
                         </td>
                         <td class="p-4 text-xs text-slate-700">${a.location}</td>
                         <td class="p-4 text-xs">

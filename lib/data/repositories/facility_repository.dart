@@ -5,6 +5,7 @@ import '../models/faq_model.dart';
 import '../models/job_model.dart';
 import '../models/contact_model.dart';
 import '../models/quote_model.dart';
+import '../models/career_application_model.dart';
 import '../providers/api_provider.dart';
 
 class FacilityRepository {
@@ -15,11 +16,11 @@ class FacilityRepository {
   Future<List<ServiceModel>> fetchServices() async {
     try {
       final response = await _apiProvider.getServices();
-      if (response is List) {
+      if (response is List && response.isNotEmpty) {
         return response.map((e) => ServiceModel.fromJson(e)).toList();
       }
     } catch (_) {
-      // Return initial offline mock data when server is unavailable
+      // Return offline mock data when server is unavailable or empty
     }
     return _getMockServices();
   }
@@ -27,7 +28,7 @@ class FacilityRepository {
   Future<List<IndustryModel>> fetchIndustries() async {
     try {
       final response = await _apiProvider.getIndustries();
-      if (response is List) {
+      if (response is List && response.isNotEmpty) {
         return response.map((e) => IndustryModel.fromJson(e)).toList();
       }
     } catch (_) {}
@@ -37,7 +38,7 @@ class FacilityRepository {
   Future<List<ProjectModel>> fetchProjects() async {
     try {
       final response = await _apiProvider.getProjects();
-      if (response is List) {
+      if (response is List && response.isNotEmpty) {
         return response.map((e) => ProjectModel.fromJson(e)).toList();
       }
     } catch (_) {}
@@ -47,7 +48,7 @@ class FacilityRepository {
   Future<List<FaqModel>> fetchFaqs() async {
     try {
       final response = await _apiProvider.getFaqs();
-      if (response is List) {
+      if (response is List && response.isNotEmpty) {
         return response.map((e) => FaqModel.fromJson(e)).toList();
       }
     } catch (_) {}
@@ -57,7 +58,7 @@ class FacilityRepository {
   Future<List<JobModel>> fetchJobs() async {
     try {
       final response = await _apiProvider.getJobs();
-      if (response is List) {
+      if (response is List && response.isNotEmpty) {
         return response.map((e) => JobModel.fromJson(e)).toList();
       }
     } catch (_) {}
@@ -71,6 +72,11 @@ class FacilityRepository {
 
   Future<bool> submitQuote(QuoteModel quote) async {
     await _apiProvider.submitQuote(quote);
+    return true;
+  }
+
+  Future<bool> submitCareer(CareerApplicationModel career) async {
+    await _apiProvider.submitCareer(career);
     return true;
   }
 

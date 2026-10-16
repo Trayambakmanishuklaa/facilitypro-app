@@ -8,7 +8,8 @@ const careerApplicationSchema = new mongoose.Schema({
   positionAppliedFor: { type: String, required: true },
   experience: { type: String, required: true },
   qualification: { type: String, required: true },
-  resumeUrl: { type: String, default: '' },
+  resumeName: { type: String, default: '' },
+  resumeBase64: { type: String, default: '' },
   message: { type: String },
   status: { type: String, enum: ['Received', 'Shortlisted', 'Rejected'], default: 'Received' }
 }, { timestamps: true });

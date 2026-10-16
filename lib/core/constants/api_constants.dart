@@ -1,9 +1,6 @@
 class ApiConstants {
-  // Base URL:
-  // - Use 'http://10.0.2.2:5000/api' for Android Emulator.
-  // - Use 'http://localhost:5000/api' for Real Physical Phone (with `adb reverse tcp:5000 tcp:5000`) or Windows Desktop.
-  // - Use 'http://<YOUR_PC_IP>:5000/api' if phone and PC are on the same Wi-Fi.
-  static const String baseUrl = 'http://localhost:5000/api';
+  // Base URL: Render Live Backend URL ending with '/api'
+  static const String baseUrl = 'https://facilitypro-backend.onrender.com/api';
 
   // Endpoints
   static const String services = '$baseUrl/services';
@@ -15,6 +12,6 @@ class ApiConstants {
   static const String quote = '$baseUrl/quotes';
   static const String careers = '$baseUrl/careers';
 
-  // Request Timeouts
-  static const int timeoutSeconds = 15;
+  // Request Timeouts (60 seconds to allow smooth resume base64 uploads)
+  static const int timeoutSeconds = 60;
 }

@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../data/models/job_model.dart';
+import '../../../data/models/career_application_model.dart';
 import '../../../data/repositories/facility_repository.dart';
 
 class CareersController extends GetxController {
@@ -23,6 +26,7 @@ class CareersController extends GetxController {
 
   final RxString selectedPosition = ''.obs;
   final RxString selectedFileName = ''.obs;
+  final RxString selectedFilePath = ''.obs;
   final RxBool isSubmitting = false.obs;
 
   @override
@@ -66,7 +70,6 @@ class CareersController extends GetxController {
 
       if (result != null && result.files.single.path != null) {
         final file = result.files.single;
-        // Check file size (e.g., max 5MB)
         if (file.size > 5 * 1024 * 1024) {
           Helpers.showErrorSnackBar(
             title: 'File Too Large',
@@ -75,6 +78,7 @@ class CareersController extends GetxController {
           return;
         }
         selectedFileName.value = file.name;
+        selectedFilePath.value = file.path!;
       }
     } catch (e) {
       Helpers.showErrorSnackBar(title: 'File Picker Error', message: e.toString());
@@ -83,7 +87,7 @@ class CareersController extends GetxController {
 
   Future<void> submitApplication() async {
     if (!formKey.currentState!.validate()) return;
-    if (selectedFileName.value.isEmpty) {
+    if (selectedFileName.value.isEmpty || selectedFilePath.value.isEmpty) {
       Helpers.showErrorSnackBar(
         title: 'Resume Required',
         message: 'Please upload your resume (PDF/DOCX).',
@@ -93,15 +97,33 @@ class CareersController extends GetxController {
 
     isSubmitting.value = true;
     try {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      final file = File(selectedFilePath.value);
+      final bytes = await file.readAsBytes();
+      final base64String = base64Encode(bytes);
+
+      final application = CareerApplicationModel(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        phone: phoneController.text.trim(),
+        location: locationController.text.trim(),
+        positionAppliedFor: selectedPosition.value.isEmpty ? 'General Application' : selectedPosition.value,
+        experience: experienceController.text.trim(),
+        qualification: qualificationController.text.trim(),
+        resumeName: selectedFileName.value,
+        resumeBase64: base64String,
+        message: messageController.text.trim(),
+      );
+
+      await _repository.submitCareer(application);
+
       Helpers.showSuccessSnackBar(
         title: 'Application Submitted',
-        message: 'Your job application has been submitted successfully!',
+        message: 'Your job application and resume have been uploaded successfully to MongoDB!',
       );
       _clearForm();
       Get.back();
     } catch (e) {
-      Helpers.showErrorSnackBar(title: 'Error', message: e.toString());
+      Helpers.showErrorSnackBar(title: 'Submission Error', message: e.toString());
     } finally {
       isSubmitting.value = false;
     }
@@ -117,5 +139,6 @@ class CareersController extends GetxController {
     messageController.clear();
     selectedPosition.value = '';
     selectedFileName.value = '';
+    selectedFilePath.value = '';
   }
 }
