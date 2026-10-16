@@ -12,7 +12,7 @@ class ProjectsView extends GetView<ProjectsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Featured Projects'),
+        title: Text('projects_title'.tr),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -94,9 +94,9 @@ class ProjectsView extends GetView<ProjectsController> {
                             style: const TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.4),
                           ),
                           const SizedBox(height: 12),
-                          const Text(
-                            'Services Provided:',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                          Text(
+                            'services_provided'.tr,
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                           ),
                           const SizedBox(height: 6),
                           Wrap(

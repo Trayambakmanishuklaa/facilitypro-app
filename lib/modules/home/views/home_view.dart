@@ -57,26 +57,26 @@ class HomeView extends GetView<HomeController> {
                 const SizedBox(height: 16),
                 _buildHeroBanner(),
                 const SizedBox(height: 24),
-                _buildQuickActionButtons(),
-                const SizedBox(height: 24),
-                _buildSectionHeader('Our Core Services', onSeeAll: () {
+                _buildSectionHeader('core_services'.tr, onSeeAll: () {
                   Get.toNamed(Routes.SERVICES);
                 }),
                 _buildServicesGrid(),
                 const SizedBox(height: 24),
                 _buildWhyChooseUs(),
                 const SizedBox(height: 24),
-                _buildSectionHeader('Industries Served', onSeeAll: () {
+                _buildCareersBanner(),
+                const SizedBox(height: 24),
+                _buildSectionHeader('industries_served'.tr, onSeeAll: () {
                   Get.toNamed(Routes.INDUSTRIES);
                 }),
                 _buildIndustriesList(),
                 const SizedBox(height: 24),
-                _buildSectionHeader('Featured Projects', onSeeAll: () {
+                _buildSectionHeader('featured_projects'.tr, onSeeAll: () {
                   Get.toNamed(Routes.PROJECTS);
                 }),
                 _buildProjectsList(),
                 const SizedBox(height: 24),
-                _buildSectionHeader('Frequently Asked Questions'),
+                _buildSectionHeader('faqs'.tr),
                 _buildFaqSection(),
                 const SizedBox(height: 32),
               ],
@@ -89,19 +89,24 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildHeaderGreeting() {
     return Container(
-      color: AppColors.primary,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      decoration: const BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(35),
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Welcome to FacilityPro',
-            style: TextStyle(fontSize: 14, color: Colors.white70),
+          Text(
+            'welcome'.tr,
+            style: const TextStyle(fontSize: 14, color: Colors.white70),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Smart & Integrated Property Operations',
-            style: TextStyle(
+          Text(
+            'tagline'.tr,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -116,13 +121,13 @@ class HomeView extends GetView<HomeController> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.search, color: AppColors.textSecondary, size: 20),
-                  SizedBox(width: 8),
+                  const Icon(Icons.search, color: AppColors.textSecondary, size: 20),
+                  const SizedBox(width: 8),
                   Text(
-                    'Search services (e.g. Soft Services, MEP, IFM)...',
-                    style: TextStyle(color: AppColors.textMuted, fontSize: 13),
+                    'search_hint'.tr,
+                    style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
                   ),
                 ],
               ),
@@ -192,7 +197,7 @@ class HomeView extends GetView<HomeController> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 onPressed: () => Get.toNamed(Routes.QUOTE),
-                child: const Text('Get Quote', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Text('get_quote'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 12),
               OutlinedButton(
@@ -203,7 +208,7 @@ class HomeView extends GetView<HomeController> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 onPressed: () => Get.toNamed(Routes.CONTACT),
-                child: const Text('Contact Us'),
+                child: Text('contact_us'.tr),
               ),
             ],
           ),
@@ -212,69 +217,78 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildQuickActionButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+  Widget _buildCareersBanner() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.primaryDark,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.accent.withOpacity(0.3)),
+      ),
       child: Row(
         children: [
           Expanded(
-            child: _buildActionCard(
-              icon: Icons.request_quote_rounded,
-              title: 'Request Quote',
-              color: AppColors.primary,
-              onTap: () => Get.toNamed(Routes.QUOTE),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: AppColors.accent.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    'careers'.tr.toUpperCase(),
+                    style: const TextStyle(
+                      color: AppColors.accent,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'careers_banner_title'.tr,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'careers_banner_sub'.tr,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 11,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.accent,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(120, 36),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () => Get.toNamed(Routes.CAREERS),
+                  icon: const Icon(Icons.work_rounded, size: 16),
+                  label: Text(
+                    'apply_position'.tr,
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(
-            child: _buildActionCard(
-              icon: Icons.support_agent_rounded,
-              title: 'Contact Sales',
-              color: AppColors.accent,
-              onTap: () => Get.toNamed(Routes.CONTACT),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _buildActionCard(
-              icon: Icons.work_outline_rounded,
-              title: 'Careers',
-              color: AppColors.secondary,
-              onTap: () => Get.toNamed(Routes.CAREERS),
-            ),
-          ),
+          const Icon(Icons.business_center_rounded, size: 48, color: Colors.white24),
         ],
-      ),
-    );
-  }
-
-  Widget _buildActionCard({
-    required IconData icon,
-    required String title,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.08),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.2)),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 26),
-            const SizedBox(height: 6),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -292,10 +306,10 @@ class HomeView extends GetView<HomeController> {
           if (onSeeAll != null)
             TextButton(
               onPressed: onSeeAll,
-              child: const Row(
+              child: Row(
                 children: [
-                  Text('See All', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600)),
-                  Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.primary),
+                  Text('see_all'.tr, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600)),
+                  const Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.primary),
                 ],
               ),
             ),
@@ -375,9 +389,9 @@ class HomeView extends GetView<HomeController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Why Choose FacilityPro?',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+          Text(
+            'why_choose'.tr,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 14),
           Row(

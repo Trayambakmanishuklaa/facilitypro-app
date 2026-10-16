@@ -13,7 +13,7 @@ class IndustriesView extends GetView<IndustriesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Industries Served'),
+        title: Text('industries_title'.tr),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {

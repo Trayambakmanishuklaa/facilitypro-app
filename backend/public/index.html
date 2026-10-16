@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FacilityPro - Admin Dashboard</title>
+    <title>FacilityPro - Secure Admin Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,7 +11,38 @@
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
-    <div class="min-h-screen flex flex-col">
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+            <div class="bg-[#0F2C59] text-white p-6 text-center">
+                <div class="inline-flex p-3 bg-white/10 rounded-xl mb-3">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold">FacilityPro Admin Login</h2>
+                <p class="text-xs text-slate-300 mt-1">Authorized Personnel Access Only</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="p-6 space-y-4">
+                <div id="loginError" class="hidden p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200 font-medium"></div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
+                    <input type="text" id="loginUsername" value="admin" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="loginPassword" value="admin123" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-[#0F2C59] outline-none">
+                </div>
+                <button type="submit" id="loginBtn" class="w-full bg-[#0F2C59] hover:bg-[#0A1E3F] text-white font-bold py-2.5 rounded-lg text-sm transition shadow">
+                    Secure Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboardContainer" class="min-h-screen flex flex-col hidden">
         <!-- Top Navbar -->
         <header class="bg-[#0F2C59] text-white shadow-md">
             <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -26,8 +57,9 @@
                         <p class="text-xs text-slate-300">Management & Enquiries Dashboard</p>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xs bg-teal-600 px-3 py-1 rounded-full text-white font-medium">Logged in as Admin</span>
+                <div class="flex items-center space-x-3">
+                    <span id="adminBadge" class="text-xs bg-teal-600 px-3 py-1 rounded-full text-white font-medium">Logged in as Admin</span>
+                    <button onclick="handleLogout()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white font-medium transition">Logout</button>
                 </div>
             </div>
         </header>
@@ -109,7 +141,7 @@
                                     <th class="p-4">Date</th>
                                     <th class="p-4">Candidate Name</th>
                                     <th class="p-4">Position Applied</th>
-                                    <th class="p-4">Experience & Resume File</th>
+                                    <th class="p-4">Experience & Resume</th>
                                     <th class="p-4">Location</th>
                                     <th class="p-4">Contact</th>
                                 </tr>
@@ -128,6 +160,60 @@
         const SERVER_BASE = window.location.origin;
         const API_BASE = `${SERVER_BASE}/api`;
 
+        function checkAuth() {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                document.getElementById('loginModal').classList.remove('hidden');
+                document.getElementById('dashboardContainer').classList.add('hidden');
+            } else {
+                document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('dashboardContainer').classList.remove('hidden');
+                loadQuotes();
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errDiv = document.getElementById('loginError');
+
+            errDiv.classList.add('hidden');
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    localStorage.setItem('adminToken', data.token);
+                    checkAuth();
+                } else {
+                    errDiv.innerText = data.message || 'Login failed';
+                    errDiv.classList.remove('hidden');
+                }
+            } catch (err) {
+                errDiv.innerText = 'Network error connecting to backend.';
+                errDiv.classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('adminToken');
+            checkAuth();
+        }
+
+        function getAuthHeaders() {
+            const token = localStorage.getItem('adminToken');
+            return {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+        }
+
         function switchTab(tab) {
             ['quotes', 'contacts', 'careers'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
@@ -143,10 +229,11 @@
 
         async function loadQuotes() {
             try {
-                const res = await fetch(`${API_BASE}/admin/quotes`);
+                const res = await fetch(`${API_BASE}/admin/quotes`, { headers: getAuthHeaders() });
+                if (res.status === 401 || res.status === 403) { handleLogout(); return; }
                 const data = await res.json();
                 const tbody = document.getElementById('quotes-table-body');
-                if (data.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No quotation requests found.</td></tr>`;
                     return;
                 }
@@ -176,10 +263,11 @@
 
         async function loadContacts() {
             try {
-                const res = await fetch(`${API_BASE}/admin/contacts`);
+                const res = await fetch(`${API_BASE}/admin/contacts`, { headers: getAuthHeaders() });
+                if (res.status === 401 || res.status === 403) { handleLogout(); return; }
                 const data = await res.json();
                 const tbody = document.getElementById('contacts-table-body');
-                if (data.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No contact enquiries found.</td></tr>`;
                     return;
                 }
@@ -197,16 +285,17 @@
                     </tr>
                 `).join('');
             } catch (e) {
-                console.error(e.message);
+                console.error(e);
             }
         }
 
         async function loadCareers() {
             try {
-                const res = await fetch(`${API_BASE}/admin/careers`);
+                const res = await fetch(`${API_BASE}/admin/careers`, { headers: getAuthHeaders() });
+                if (res.status === 401 || res.status === 403) { handleLogout(); return; }
                 const data = await res.json();
                 const tbody = document.getElementById('careers-table-body');
-                if (data.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No job applications found.</td></tr>`;
                     return;
                 }
@@ -237,8 +326,8 @@
             }
         }
 
-        // Initial load
-        loadQuotes();
+        // Check authentication on load
+        checkAuth();
     </script>
 </body>
 </html>

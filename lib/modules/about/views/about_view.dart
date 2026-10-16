@@ -12,7 +12,7 @@ class AboutView extends GetView<AboutController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About FacilityPro'),
+        title: Text('about_title'.tr),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -37,9 +37,9 @@ class AboutView extends GetView<AboutController> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    AppConstants.appTagline,
-                    style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  Text(
+                    'tagline'.tr,
+                    style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
                   ),
                 ],
               ),
@@ -48,15 +48,15 @@ class AboutView extends GetView<AboutController> {
             CustomCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'Company Profile',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary),
+                    'company_profile'.tr,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'FacilityPro is a premier integrated facility management provider delivering technology-enabled property maintenance, technical MEP engineering, soft services, and specialized healthcare infrastructure support across corporate and commercial assets.',
-                    style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5),
+                    'about_profile_desc'.tr,
+                    style: const TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5),
                   ),
                 ],
               ),
@@ -68,14 +68,14 @@ class AboutView extends GetView<AboutController> {
                   child: CustomCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Icon(Icons.lightbulb_rounded, color: AppColors.accent, size: 28),
-                        SizedBox(height: 8),
-                        Text('Our Mission', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                        SizedBox(height: 4),
+                      children: [
+                        const Icon(Icons.lightbulb_rounded, color: AppColors.accent, size: 28),
+                        const SizedBox(height: 8),
+                        Text('our_mission'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                        const SizedBox(height: 4),
                         Text(
-                          'To elevate infrastructure longevity and environment hygiene through continuous innovation and trained professionals.',
-                          style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                          'mission_desc'.tr,
+                          style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -86,14 +86,14 @@ class AboutView extends GetView<AboutController> {
                   child: CustomCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Icon(Icons.visibility_rounded, color: AppColors.secondary, size: 28),
-                        SizedBox(height: 8),
-                        Text('Our Vision', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                        SizedBox(height: 4),
+                      children: [
+                        const Icon(Icons.visibility_rounded, color: AppColors.secondary, size: 28),
+                        const SizedBox(height: 8),
+                        Text('our_vision'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                        const SizedBox(height: 4),
                         Text(
-                          'To be Asia\'s most trusted, sustainable, and technology-driven facility management partner.',
-                          style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                          'vision_desc'.tr,
+                          style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -106,14 +106,14 @@ class AboutView extends GetView<AboutController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Core Values',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary),
+                  Text(
+                    'core_values'.tr,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary),
                   ),
                   const SizedBox(height: 12),
-                  _buildValueTile('Excellence in Service', 'Delivering 99.8%+ SLA performance across all client properties.'),
-                  _buildValueTile('Integrity & Safety', 'Zero-tolerance policy on safety standard violations and environmental compliance.'),
-                  _buildValueTile('Sustainability', 'Promoting energy efficiency, zero-waste practices, and green cleaning solutions.'),
+                  _buildValueTile('val_1_title'.tr, 'val_1_desc'.tr),
+                  _buildValueTile('val_2_title'.tr, 'val_2_desc'.tr),
+                  _buildValueTile('val_3_title'.tr, 'val_3_desc'.tr),
                 ],
               ),
             ),
@@ -121,13 +121,13 @@ class AboutView extends GetView<AboutController> {
             CustomCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'Corporate Contact Info',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary),
+                    'corporate_contact'.tr,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary),
                   ),
-                  SizedBox(height: 12),
-                  Row(
+                  const SizedBox(height: 12),
+                  const Row(
                     children: [
                       Icon(Icons.location_on_rounded, size: 18, color: AppColors.textSecondary),
                       SizedBox(width: 8),
@@ -136,16 +136,16 @@ class AboutView extends GetView<AboutController> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
-                  Row(
+                  const SizedBox(height: 8),
+                  const Row(
                     children: [
                       Icon(Icons.phone_rounded, size: 18, color: AppColors.textSecondary),
                       SizedBox(width: 8),
                       Text(AppConstants.supportPhone, style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
                     ],
                   ),
-                  SizedBox(height: 8),
-                  Row(
+                  const SizedBox(height: 8),
+                  const Row(
                     children: [
                       Icon(Icons.email_rounded, size: 18, color: AppColors.textSecondary),
                       SizedBox(width: 8),

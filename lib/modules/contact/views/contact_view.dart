@@ -13,7 +13,7 @@ class ContactView extends GetView<ContactController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contact Us'),
+        title: Text('contact_title'.tr),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -22,49 +22,49 @@ class ContactView extends GetView<ContactController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Get in Touch with FacilityPro',
-                style: TextStyle(
+              Text(
+                'contact_title'.tr,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
-              const Text(
-                'Fill in the details below and our facility management team will contact you shortly.',
-                style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+              Text(
+                'contact_sub'.tr,
+                style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 20),
               CustomTextField(
                 controller: controller.nameController,
-                label: 'Full Name *',
+                label: 'full_name'.tr,
                 prefixIcon: Icons.person_outline_rounded,
                 validator: (v) => Helpers.validateRequired(v, 'Name'),
               ),
               CustomTextField(
                 controller: controller.companyController,
-                label: 'Company / Organization *',
+                label: 'company_org'.tr,
                 prefixIcon: Icons.business_outlined,
                 validator: (v) => Helpers.validateRequired(v, 'Company'),
               ),
               CustomTextField(
                 controller: controller.emailController,
-                label: 'Email Address *',
+                label: 'business_email'.tr,
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 validator: Helpers.validateEmail,
               ),
               CustomTextField(
                 controller: controller.phoneController,
-                label: 'Phone Number *',
+                label: 'phone_number'.tr,
                 prefixIcon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
                 validator: Helpers.validatePhone,
               ),
-              const Text(
-                'Service Required *',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+              Text(
+                'service_required'.tr,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 6),
               Obx(
@@ -76,24 +76,23 @@ class ContactView extends GetView<ContactController> {
                   onChanged: (val) {
                     if (val != null) controller.selectedService.value = val;
                   },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.miscellaneous_services_outlined, size: 20, color: AppColors.textSecondary),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.miscellaneous_services_outlined, size: 20, color: AppColors.textSecondary),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               CustomTextField(
                 controller: controller.messageController,
-                label: 'Message / Special Requirements *',
-                hint: 'Tell us more about your property and requirements...',
+                label: 'message_req'.tr,
                 maxLines: 4,
                 validator: (v) => Helpers.validateRequired(v, 'Message'),
               ),
               const SizedBox(height: 12),
               Obx(
                 () => CustomButton(
-                  text: 'Submit Enquiry',
+                  text: 'submit_enquiry'.tr,
                   icon: Icons.send_rounded,
                   isLoading: controller.isSubmitting.value,
                   onPressed: controller.submitContact,

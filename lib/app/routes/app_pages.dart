@@ -3,6 +3,8 @@ import 'app_routes.dart';
 
 import '../../modules/splash/bindings/splash_binding.dart';
 import '../../modules/splash/views/splash_view.dart';
+import '../../modules/language_selection/bindings/language_selection_binding.dart';
+import '../../modules/language_selection/views/language_selection_view.dart';
 import '../../modules/main_navigation/bindings/main_navigation_binding.dart';
 import '../../modules/main_navigation/views/main_navigation_view.dart';
 import '../../modules/home/bindings/home_binding.dart';
@@ -34,6 +36,11 @@ class AppPages {
       name: Routes.SPLASH,
       page: () => const SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: Routes.LANGUAGE_SELECTION,
+      page: () => const LanguageSelectionView(),
+      binding: LanguageSelectionBinding(),
     ),
     GetPage(
       name: Routes.MAIN_NAVIGATION,

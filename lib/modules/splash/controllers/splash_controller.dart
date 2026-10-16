@@ -11,6 +11,6 @@ class SplashController extends GetxController {
 
   void _navigateToNext() async {
     await Future.delayed(const Duration(seconds: AppConstants.splashDelaySeconds));
-    Get.offAllNamed(Routes.MAIN_NAVIGATION);
+    Get.offAllNamed(Routes.LANGUAGE_SELECTION);
   }
 }

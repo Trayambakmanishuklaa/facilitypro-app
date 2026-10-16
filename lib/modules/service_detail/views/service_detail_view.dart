@@ -70,9 +70,9 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'Key Capabilities',
-                    style: TextStyle(
+                  Text(
+                    'key_capabilities'.tr,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
@@ -96,9 +96,9 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                         ),
                       )),
                   const SizedBox(height: 24),
-                  const Text(
-                    'Business Benefits',
-                    style: TextStyle(
+                  Text(
+                    'business_benefits'.tr,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
@@ -123,7 +123,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       )),
                   const SizedBox(height: 32),
                   CustomButton(
-                    text: 'Request a Quote for this Service',
+                    text: 'request_quote_service'.tr,
                     icon: Icons.request_quote_rounded,
                     onPressed: () {
                       Get.toNamed(Routes.QUOTE, arguments: service.title);
@@ -131,7 +131,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   ),
                   const SizedBox(height: 12),
                   CustomButton(
-                    text: 'Contact Facility Consultant',
+                    text: 'contact_consultant'.tr,
                     icon: Icons.phone_in_talk_rounded,
                     isOutlined: true,
                     onPressed: () {

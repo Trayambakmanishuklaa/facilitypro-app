@@ -12,7 +12,7 @@ class MoreView extends GetView<MoreController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('More Options'),
+        title: Text('more_title'.tr),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -34,13 +34,13 @@ class MoreView extends GetView<MoreController> {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          AppConstants.appName,
-                          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                          'app_name'.tr,
+                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 2),
-                        Text(
+                        const SizedBox(height: 2),
+                        const Text(
                           AppConstants.companyName,
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
@@ -52,49 +52,88 @@ class MoreView extends GetView<MoreController> {
             ),
             const SizedBox(height: 12),
             _buildMenuItem(
+              icon: Icons.language_rounded,
+              title: 'language'.tr,
+              subtitle: 'select_language'.tr,
+              onTap: () {
+                final isHindi = Get.locale?.languageCode == 'hi';
+                Get.defaultDialog(
+                  title: 'select_language'.tr,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          !isHindi ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                          color: AppColors.primary,
+                        ),
+                        title: Text('english'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        onTap: () {
+                          controller.changeLanguage('en', 'US');
+                          Get.back();
+                        },
+                      ),
+                      const Divider(height: 1),
+                      ListTile(
+                        leading: Icon(
+                          isHindi ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                          color: AppColors.primary,
+                        ),
+                        title: Text('hindi'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        onTap: () {
+                          controller.changeLanguage('hi', 'IN');
+                          Get.back();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            _buildMenuItem(
               icon: Icons.info_outline_rounded,
-              title: 'About FacilityPro',
-              subtitle: 'Mission, vision & corporate capabilities',
+              title: 'about_title'.tr,
+              subtitle: 'about_sub'.tr,
               onTap: () => Get.toNamed(Routes.ABOUT),
             ),
             _buildMenuItem(
               icon: Icons.domain_rounded,
-              title: 'Industries Served',
-              subtitle: 'Commercial, Malls, Healthcare & Residential',
+              title: 'industries_title'.tr,
+              subtitle: 'ind_sub'.tr,
               onTap: () => Get.toNamed(Routes.INDUSTRIES),
             ),
             _buildMenuItem(
               icon: Icons.contact_support_outlined,
-              title: 'Contact Us',
-              subtitle: 'Get in touch with support & sales team',
+              title: 'contact_title'.tr,
+              subtitle: 'contact_menu_sub'.tr,
               onTap: () => Get.toNamed(Routes.CONTACT),
             ),
             _buildMenuItem(
               icon: Icons.request_quote_outlined,
-              title: 'Request a Quote',
-              subtitle: 'Get a custom facility estimate for your property',
+              title: 'quote_title'.tr,
+              subtitle: 'quote_menu_sub'.tr,
               onTap: () => Get.toNamed(Routes.QUOTE),
             ),
             _buildMenuItem(
               icon: Icons.work_outline_rounded,
-              title: 'Careers & Opportunities',
-              subtitle: 'Explore job openings and join our team',
+              title: 'careers_title'.tr,
+              subtitle: 'careers_menu_sub'.tr,
               onTap: () => Get.toNamed(Routes.CAREERS),
             ),
             const Divider(height: 24),
             _buildMenuItem(
               icon: Icons.share_rounded,
-              title: 'Share App',
-              subtitle: 'Recommend FacilityPro to partners',
+              title: 'share_app'.tr,
+              subtitle: 'share_menu_sub'.tr,
               onTap: controller.shareApp,
             ),
             _buildMenuItem(
               icon: Icons.privacy_tip_outlined,
-              title: 'Privacy Policy',
-              subtitle: 'Data security & privacy guidelines',
+              title: 'privacy_policy'.tr,
+              subtitle: 'privacy_menu_sub'.tr,
               onTap: () {
                 Get.defaultDialog(
-                  title: 'Privacy Policy',
+                  title: 'privacy_policy'.tr,
                   content: const SingleChildScrollView(
                     child: Text(
                       'FacilityPro is committed to protecting customer data. All enquiries and quote requests submitted via this mobile app are encrypted and stored securely.',
@@ -106,11 +145,11 @@ class MoreView extends GetView<MoreController> {
             ),
             _buildMenuItem(
               icon: Icons.gavel_rounded,
-              title: 'Terms & Conditions',
-              subtitle: 'Usage terms for FacilityPro platform',
+              title: 'terms_conditions'.tr,
+              subtitle: 'terms_menu_sub'.tr,
               onTap: () {
                 Get.defaultDialog(
-                  title: 'Terms & Conditions',
+                  title: 'terms_conditions'.tr,
                   content: const SingleChildScrollView(
                     child: Text(
                       'By using FacilityPro mobile app, you agree to submit genuine facility enquiries. FacilityPro Pvt Ltd reserves all rights to service offerings.',
@@ -120,9 +159,9 @@ class MoreView extends GetView<MoreController> {
                 );
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 14),
             Text(
-              'App Version ${AppConstants.appVersion}',
+              '${'app_version'.tr} ${AppConstants.appVersion}',
               style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
             const SizedBox(height: 24),

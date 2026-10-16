@@ -13,7 +13,7 @@ class ServicesView extends GetView<ServicesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Facility Management Services'),
+        title: Text('services_title'.tr),
         centerTitle: true,
       ),
       body: Column(
@@ -24,7 +24,7 @@ class ServicesView extends GetView<ServicesController> {
             child: TextField(
               onChanged: controller.filterServices,
               decoration: InputDecoration(
-                hintText: 'Search services...',
+                hintText: 'search_services'.tr,
                 prefixIcon: const Icon(Icons.search, color: AppColors.textMuted),
                 fillColor: Colors.white,
                 filled: true,
@@ -125,7 +125,7 @@ class ServicesView extends GetView<ServicesController> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Explore Capabilities (${service.capabilities.length})',
+                                      '${'key_capabilities'.tr} (${service.capabilities.length})',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,

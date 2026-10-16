@@ -1,5 +1,6 @@
 abstract class Routes {
   static const SPLASH = '/splash';
+  static const LANGUAGE_SELECTION = '/language-selection';
   static const MAIN_NAVIGATION = '/main-navigation';
   static const HOME = '/home';
   static const SERVICES = '/services';

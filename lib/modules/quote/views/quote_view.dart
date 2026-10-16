@@ -13,7 +13,7 @@ class QuoteView extends GetView<QuoteController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Request a Quote'),
+        title: Text('quote_title'.tr),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -22,62 +22,61 @@ class QuoteView extends GetView<QuoteController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Facility Management Quotation',
-                style: TextStyle(
+              Text(
+                'quote_title'.tr,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
-              const Text(
-                'Provide your property details for a tailored commercial facility quote.',
-                style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+              Text(
+                'quote_sub'.tr,
+                style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 20),
               CustomTextField(
                 controller: controller.nameController,
-                label: 'Contact Name *',
+                label: 'full_name'.tr,
                 prefixIcon: Icons.person_outline_rounded,
                 validator: (v) => Helpers.validateRequired(v, 'Name'),
               ),
               CustomTextField(
                 controller: controller.companyController,
-                label: 'Company Name *',
+                label: 'company_org'.tr,
                 prefixIcon: Icons.business_outlined,
                 validator: (v) => Helpers.validateRequired(v, 'Company Name'),
               ),
               CustomTextField(
                 controller: controller.designationController,
                 label: 'Designation / Role *',
-                hint: 'e.g., Facility Director, General Manager',
                 prefixIcon: Icons.badge_outlined,
                 validator: (v) => Helpers.validateRequired(v, 'Designation'),
               ),
               CustomTextField(
                 controller: controller.emailController,
-                label: 'Business Email *',
+                label: 'business_email'.tr,
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 validator: Helpers.validateEmail,
               ),
               CustomTextField(
                 controller: controller.phoneController,
-                label: 'Phone Number *',
+                label: 'phone_number'.tr,
                 prefixIcon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
                 validator: Helpers.validatePhone,
               ),
               CustomTextField(
                 controller: controller.locationController,
-                label: 'Facility Location / City *',
+                label: 'facility_location'.tr,
                 prefixIcon: Icons.location_city_outlined,
                 validator: (v) => Helpers.validateRequired(v, 'Location'),
               ),
-              const Text(
-                'Property Type *',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+              Text(
+                'property_type'.tr,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 6),
               Obx(
@@ -95,9 +94,9 @@ class QuoteView extends GetView<QuoteController> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Primary Service Required *',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+              Text(
+                'service_required'.tr,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 6),
               Obx(
@@ -117,21 +116,19 @@ class QuoteView extends GetView<QuoteController> {
               const SizedBox(height: 16),
               CustomTextField(
                 controller: controller.requirementDetailsController,
-                label: 'Facility Area / Details *',
-                hint: 'e.g. 150,000 sq ft, 12 floors, 24/7 operations',
+                label: 'facility_area'.tr,
                 prefixIcon: Icons.aspect_ratio_outlined,
                 validator: (v) => Helpers.validateRequired(v, 'Area / Details'),
               ),
               CustomTextField(
                 controller: controller.messageController,
-                label: 'Additional Remarks',
-                hint: 'Any specific SLAs or transition timeline requirements...',
+                label: 'additional_remarks'.tr,
                 maxLines: 3,
               ),
               const SizedBox(height: 12),
               Obx(
                 () => CustomButton(
-                  text: 'Submit Quote Request',
+                  text: 'submit_quote_req'.tr,
                   icon: Icons.check_circle_outline_rounded,
                   isLoading: controller.isSubmitting.value,
                   onPressed: controller.submitQuote,

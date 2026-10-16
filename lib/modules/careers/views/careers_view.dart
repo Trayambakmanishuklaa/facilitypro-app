@@ -15,7 +15,7 @@ class CareersView extends GetView<CareersController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Careers at FacilityPro'),
+        title: Text('careers_title'.tr),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -37,23 +37,23 @@ class CareersView extends GetView<CareersController> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Build Your Career With Us',
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                      'careers_banner_title'.tr,
+                      style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
                     Text(
-                      'Join a team of 5,000+ facility experts, engineers, and hospitality professionals across India.',
-                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                      'careers_banner_sub'.tr,
+                      style: const TextStyle(color: Colors.white70, fontSize: 13),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Open Positions',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+              Text(
+                'open_positions'.tr,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 12),
               ...controller.jobs.map((job) => Padding(
@@ -100,7 +100,7 @@ class CareersView extends GetView<CareersController> {
                           ),
                           const SizedBox(height: 12),
                           CustomButton(
-                            text: 'Apply for Position',
+                            text: 'apply_position'.tr,
                             icon: Icons.send_rounded,
                             onPressed: () {
                               controller.selectPosition(job.title);
@@ -119,9 +119,17 @@ class CareersView extends GetView<CareersController> {
   }
 
   void _showApplicationDialog(BuildContext context, String positionTitle) {
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(20),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          left: 20,
+          right: 20,
+          top: 20,
+        ),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -136,56 +144,58 @@ class CareersView extends GetView<CareersController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Apply: $positionTitle',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                    Expanded(
+                      child: Text(
+                        'Apply: $positionTitle',
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(Icons.close),
-                      onPressed: () => Get.back(),
+                      onPressed: () => Navigator.pop(context),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
                 CustomTextField(
                   controller: controller.nameController,
-                  label: 'Full Name *',
+                  label: 'full_name'.tr,
                   prefixIcon: Icons.person_outline,
                   validator: (v) => Helpers.validateRequired(v, 'Name'),
                 ),
                 CustomTextField(
                   controller: controller.emailController,
-                  label: 'Email *',
+                  label: 'business_email'.tr,
                   prefixIcon: Icons.email_outlined,
                   validator: Helpers.validateEmail,
                 ),
                 CustomTextField(
                   controller: controller.phoneController,
-                  label: 'Phone *',
+                  label: 'phone_number'.tr,
                   prefixIcon: Icons.phone_outlined,
                   validator: Helpers.validatePhone,
                 ),
                 CustomTextField(
                   controller: controller.locationController,
-                  label: 'Current City *',
+                  label: 'current_city'.tr,
                   prefixIcon: Icons.location_city_outlined,
                   validator: (v) => Helpers.validateRequired(v, 'City'),
                 ),
                 CustomTextField(
                   controller: controller.experienceController,
-                  label: 'Total Experience (Years) *',
+                  label: 'total_experience'.tr,
                   prefixIcon: Icons.access_time,
                   validator: (v) => Helpers.validateRequired(v, 'Experience'),
                 ),
                 CustomTextField(
                   controller: controller.qualificationController,
-                  label: 'Highest Qualification *',
+                  label: 'highest_qualification'.tr,
                   prefixIcon: Icons.school_outlined,
                   validator: (v) => Helpers.validateRequired(v, 'Qualification'),
                 ),
-                const Text(
-                  'Upload Resume (PDF/DOCX max 5MB) *',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+                Text(
+                  'upload_resume'.tr,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
                 ),
                 const SizedBox(height: 6),
                 Obx(
@@ -194,7 +204,7 @@ class CareersView extends GetView<CareersController> {
                     icon: const Icon(Icons.upload_file_rounded),
                     label: Text(
                       controller.selectedFileName.value.isEmpty
-                          ? 'Select Resume File'
+                          ? 'select_resume'.tr
                           : controller.selectedFileName.value,
                     ),
                   ),
@@ -202,13 +212,13 @@ class CareersView extends GetView<CareersController> {
                 const SizedBox(height: 16),
                 CustomTextField(
                   controller: controller.messageController,
-                  label: 'Cover Note / Message',
+                  label: 'cover_note'.tr,
                   maxLines: 2,
                 ),
                 const SizedBox(height: 16),
                 Obx(
                   () => CustomButton(
-                    text: 'Submit Application',
+                    text: 'submit_application'.tr,
                     isLoading: controller.isSubmitting.value,
                     onPressed: controller.submitApplication,
                   ),
@@ -219,7 +229,6 @@ class CareersView extends GetView<CareersController> {
           ),
         ),
       ),
-      isScrollControlled: true,
     );
   }
 }
