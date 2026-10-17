@@ -219,7 +219,8 @@ class CareersView extends GetView<CareersController> {
                 Obx(
                   () => CustomButton(
                     text: 'submit_application'.tr,
-                    isLoading: controller.isSubmitting.value,
+                    isLoading: controller.isSubmitting.value
+                    ,
                     onPressed: controller.submitApplication,
                   ),
                 ),

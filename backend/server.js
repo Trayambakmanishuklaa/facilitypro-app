@@ -7,6 +7,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const https = require('https');
+const http = require('http');
 const connectDB = require('./config/db');
 const verifyToken = require('./middleware/auth');
 
@@ -212,7 +214,32 @@ app.get('/api/admin/careers', verifyToken, async (req, res) => {
   }
 });
 
+// Health Check Endpoint (for UptimeRobot / Keep-Alive)
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'FacilityPro Backend is active', timestamp: new Date().toISOString() });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`FacilityPro Secure Backend & Admin Dashboard running on http://localhost:${PORT}`);
+
+  // Keep-Alive Self-Ping Service for Render (Prevents Free Tier Sleeping)
+  // Render automatically sets RENDER_EXTERNAL_URL, or set BACKEND_URL in .env
+  const backendUrl = process.env.RENDER_EXTERNAL_URL || process.env.BACKEND_URL;
+  if (backendUrl) {
+    const healthUrl = `${backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl}/health`;
+    console.log(`[Keep-Alive] Self-ping service activated for: ${healthUrl}`);
+
+    // Self-ping every 10 minutes (Render goes to sleep after 15 min of inactivity)
+    setInterval(() => {
+      const client = healthUrl.startsWith('https') ? https : http;
+      client.get(healthUrl, (res) => {
+        console.log(`[Keep-Alive] Auto ping sent to ${healthUrl} - Status: ${res.statusCode}`);
+      }).on('error', (err) => {
+        console.error(`[Keep-Alive] Auto ping error: ${err.message}`);
+      });
+    }, 10 * 60 * 1000); // 10 minutes
+  } else {
+    console.log('[Keep-Alive] Running locally or RENDER_EXTERNAL_URL not set. Self-ping idle.');
+  }
 });
